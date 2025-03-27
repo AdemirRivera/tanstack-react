@@ -1,14 +1,15 @@
-import { useQuery } from "@tanstack/react-query";
-import { getLabels } from "../actions";
+
+import { useLabels } from '../hooks';
+import { LoadingSpinner } from '../shared/components/LoadingSpinner';
 
 export const LabelPicker = () => {
-  const labelsQuery = useQuery({
-    queryKey: ["labels"],
-    queryFn: getLabels,
-  });
+  
+const { labelsQuery } = useLabels()
 
   if (labelsQuery.isLoading) {
-    return <div className="flex justify-center items-center h-52">Loading...</div>;
+    return <div className="flex justify-center items-center h-52">
+      <LoadingSpinner />
+    </div>;
   }
 
   return (
@@ -16,7 +17,7 @@ export const LabelPicker = () => {
       {labelsQuery.data?.map((label) => (
         <span
           key={label.id}
-          className="px-2 py-1 rounded-full text-xs font-semibold hover:bg-slate-800 cursor-pointer text-white"
+          className="animate-fadeIn px-2 py-1 rounded-full text-xs font-semibold hover:bg-slate-800 cursor-pointer text-white"
           style={{ border: `1px solid #${label.color}` }}
         >
           {label.name}
