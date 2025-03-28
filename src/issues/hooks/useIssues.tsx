@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getIssues } from "../actions/get-issues.actions";
+import { getIssues } from "../actions";
 
 export const useIssues = () => {
   const issuesQuery = useQuery({
