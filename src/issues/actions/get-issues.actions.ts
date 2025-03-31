@@ -2,7 +2,7 @@ import { githubApi } from "../../api"
 import { sleep } from "../../helpers"
 import { IGithubIssue, State } from "../interfaces"
 
-export const getIssues = async (state: State, selectedLabels: string[]): Promise<IGithubIssue[]> => {
+export const getIssues = async (state: State, selectedLabels: string[], page: number): Promise<IGithubIssue[]> => {
     await sleep(1500)
 
     const params = new URLSearchParams()
@@ -15,6 +15,7 @@ export const getIssues = async (state: State, selectedLabels: string[]): Promise
         params.append('labels', selectedLabels.join(','))
     }
 
+    params.append('page', page.toString())
     params.append('per_page', '5')
 
     const { data } = await githubApi.get<IGithubIssue[]>('/issues', {
