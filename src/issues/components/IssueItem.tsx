@@ -28,12 +28,15 @@ export const IssueItem: FC<Props> = ({ issue }) => {
   };
 
   const presetData = () => {
-    queryClient.setQueryData(["issues", issue.number], issue, {});
+    queryClient.setQueryData(["issues", issue.number], issue, {
+      updatedAt: Date.now() + 1000 * 60, // 1 minute
+    });
   };
-  
+
   return (
     <div
-      onMouseEnter={prefecthData}
+      // onMouseEnter={prefecthData}
+      onMouseEnter={presetData}
       className="animate-fadeIn flex items-center px-2 py-3 mb-5 border rounded-md bg-slate-900 hover:bg-slate-800"
     >
       {issue.state === State.Close ? (
