@@ -9,9 +9,9 @@ export const ListViewInfinite = () => {
   const [state, setState] = useState<State>(State.All);
   const [selectedLabels, setSelectedLabels] = useState<string[]>([]);
 
-  const { issuesQuery} = useIssuesInfinite({ state, selectedLabels });
+  const { issuesQuery } = useIssuesInfinite({ state, selectedLabels });
 
-  const issues = issuesQuery.data ?? [];
+  const issues = issuesQuery.data?.pages.flat() ?? [];
 
   const onLabelSelected = (label: string) => {
     if (selectedLabels.includes(label)) {
@@ -30,8 +30,12 @@ export const ListViewInfinite = () => {
           <div className="flex flex-col justify-center">
             <IssueList issues={issues} onStateChange={setState} state={state} />
 
-            <button className="p-2 bg-blue-500 rounded-md hover:bg-blue-700 transition-all">
-              Cargar mas...
+            <button
+              onClick={() => issuesQuery.fetchNextPage()}
+              disabled={issuesQuery.isFetchingNextPage}
+              className="p-2 bg-blue-500 rounded-md hover:bg-blue-700 transition-all :disabled:bg-gray-300 disabled:cursor-not-allowed disabled:bg-gray-500"
+            >
+              {issuesQuery.isFetchingNextPage ? "Loading..." : "Load More"}
             </button>
           </div>
         )}
